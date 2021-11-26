@@ -9,6 +9,10 @@
         <variable
             name="result"
             type="com.example.movies_db.network.MoviesPhoto" />
+
+        <variable
+            name="movieFragment"
+            type="com.example.movies_db.overview.MoviesFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,14 +32,26 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:src="@tools:sample/backgrounds/scenic"/>
 
-    <TextView
-        android:id="@+id/taxtName"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="@{result.title}"
-        app:layout_constraintTop_toBottomOf="@+id/movie_image"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/taxtName"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="16dp"
+            android:text="@{result.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_image" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/taxtName"
+           android:onClick="@{() -> movieFragment.moveFun()}"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     </layout>
