@@ -5,15 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies_db.network.MoviesApi
+import com.example.movies_db.network.MoviesPhoto
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class MoviesViewModel :  ViewModel() {
 
-    private val _status = MutableLiveData<String>()
+    private val _results = MutableLiveData<List<MoviesPhoto>>()
+    val results: LiveData<List<MoviesPhoto>> = _results
 
-    val status: LiveData<String> = _status
+    private val _title = MutableLiveData<String>()
+    val title : LiveData<String> = _title
 
+    private val _postre = MutableLiveData<String>()
+    val poster : LiveData<String> = _postre
     init {
         getMoviesPhotos()
     }
@@ -23,11 +28,13 @@ class MoviesViewModel :  ViewModel() {
 
         viewModelScope.launch {
             try {
-                val listResult = MoviesApi.retrofitService.getPhotos()
-                _status.value = "listResult ${listResult.results.size}"
+                _results.value = MoviesApi.retrofitService.getPhotos().results
+                _title.value = _results.value!![0].title
+                _postre.value = _results.value!![0].posterPath
+
             }
             catch ( e : Exception){
-                _status.value = "Failure : ${e.message}"
+                _title.value = "Failure : ${e.message}"
             }
 
         }
