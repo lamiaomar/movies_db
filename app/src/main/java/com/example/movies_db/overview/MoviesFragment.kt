@@ -1,6 +1,7 @@
 package com.example.movies_db.overview
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.movies_db.R
 import com.example.movies_db.databinding.FragmentMoviesBinding
+import com.example.movies_db.network.i
 
 
 class MoviesFragment : Fragment() {
@@ -29,14 +31,13 @@ class MoviesFragment : Fragment() {
         binding.viewModel = viewModel
 
 
-
         binding.photosGrid.adapter = PhotoGridAdapter()
         return binding.root
     }
 
-  fun moveFun(){
-      findNavController().navigate(R.id.action_moviesFragment_to_detailsFragment)
-  }
+//    fun moveFun(){
+//        findNavController().navigate(R.id.action_moviesFragment_to_detailsFragment)
+//    }
 
 
 }

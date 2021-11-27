@@ -9,7 +9,12 @@ import com.example.movies_db.network.MoviesPhoto
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
+
 class MoviesViewModel : ViewModel() {
+
+    private var _currentPosition = MutableLiveData<Int?>()
+    val currentPosition
+        get() = _currentPosition
 
     private val _results = MutableLiveData<List<MoviesPhoto>>()
     val results: LiveData<List<MoviesPhoto>> = _results
@@ -35,7 +40,9 @@ class MoviesViewModel : ViewModel() {
                 _results.value = MoviesApi.retrofitService.getPhotos().results
                 _title.value = _results.value!![0].title
                 _postre.value = _results.value!![0].posterPath
-                _overview.value = _results.value!![0].overview
+
+//                _overview.value = _results.value!![0].overview
+
 
             } catch (e: Exception) {
                 _title.value = "Failure : ${e.message}"
@@ -44,7 +51,11 @@ class MoviesViewModel : ViewModel() {
         }
     }
 
-    fun goto(){
+    fun displayMovieDescription( ){
+
+        val item = results.value!![_currentPosition.value!!]
+
+       _overview.value = item.overview
 
     }
 }

@@ -35,3 +35,4 @@ fun bindRecyclerView(
     adapter.submitList(data)
 
 }
+
