@@ -12,6 +12,7 @@ import java.lang.Exception
 
 enum class MoviesApiStatus { LOADING, ERROR, DONE }
 
+enum class MoviesApiStars { NINE, SEVEN, FIVE }
 class MoviesViewModel : ViewModel() {
 
     private var _currentPosition = MutableLiveData<Int?>()
@@ -37,9 +38,12 @@ class MoviesViewModel : ViewModel() {
 
     var popularity = MutableLiveData<String?>()
 
-    var vote_average = MutableLiveData<String?>()
+    var vote_average = MutableLiveData<Double?>()
 
     var vote_count = MutableLiveData<String?>()
+
+    var _star = MutableLiveData<MoviesApiStars>()
+    val star : LiveData<MoviesApiStars> = _star
 
     private val _status = MutableLiveData<MoviesApiStatus>()
     val status: LiveData<MoviesApiStatus> = _status
@@ -83,9 +87,15 @@ class MoviesViewModel : ViewModel() {
         release_date.value = item?.releaseDate
 
         popularity.value = item?.popularity.toString()
-        vote_average.value = item?.voteAverage.toString()
+        vote_average.value = item?.voteAverage
         vote_count.value = item?.voteCount.toString()
 
-
+        if (vote_average.value!! > 8.0) {
+            _star.value = MoviesApiStars.NINE
+        }else if (vote_average.value!! > 6.0){
+            _star.value = MoviesApiStars.SEVEN
+        }else if (vote_average.value!! > 4.0){
+            _star.value = MoviesApiStars.FIVE
+        }
     }
 }

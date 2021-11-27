@@ -61,4 +61,26 @@ fun bindStatus(
 
 }
 
+@BindingAdapter("moviesApiStars")
+fun bindStar( statusImageView: ImageView,
+              status: MoviesApiStars?
+) {
+    when(status){
+        MoviesApiStars.NINE -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.starnine)
+        }
+
+        MoviesApiStars.SEVEN -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.starsseven)
+        }
+
+        MoviesApiStars.FIVE -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.starfive)
+        }
+    }
+}
+
 
