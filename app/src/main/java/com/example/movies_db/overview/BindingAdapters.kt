@@ -1,5 +1,6 @@
 package com.example.movies_db.overview
 
+import android.view.View
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -17,7 +18,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         val imgUri = imgUrl?.toUri()?.buildUpon()?.build()
         Glide.with(imgView)
             .load("https://image.tmdb.org/t/p/w500${imgUri}")
-            .override(100, 150)
+//            .override(200, 150)
             .centerCrop() // scale image to fill the entire ImageView
             .error(R.drawable.ic_connection_error)
             .placeholder(R.drawable.ic_broken_image)
@@ -35,4 +36,29 @@ fun bindRecyclerView(
     adapter.submitList(data)
 
 }
+
+@BindingAdapter("moviesApiStatus")
+fun bindStatus(
+    statusImageView: ImageView,
+    status: MoviesApiStatus?
+) {
+
+    when (status) {
+
+        MoviesApiStatus.LOADING -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.loading_animation)
+        }
+
+        MoviesApiStatus.ERROR -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.ic_connection_error)
+        }
+        MoviesApiStatus.DONE -> {
+            statusImageView.visibility = View.GONE
+        }
+    }
+
+}
+
 

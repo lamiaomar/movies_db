@@ -13,19 +13,19 @@ import com.example.movies_db.databinding.FragmentMoviesBinding
 import com.example.movies_db.overview.MoviesViewModel
 import com.example.movies_db.overview.PhotoGridAdapter
 import java.text.FieldPosition
+import kotlin.properties.Delegates
 
-private const val position = "position"
+private const val position = "title"
 
 class DetailsFragment : Fragment() {
 
-    private var _currentPosition = MutableLiveData<Int>()
-    val currentPosition
-        get() = _currentPosition
-
-
     private val viewModel: MoviesViewModel by activityViewModels()
 
-    private  var displayPosition : Int? = 0
+//    private lateinit var binding: FragmentDetailsBinding
+
+    private var displayPosition : Int = 0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,18 +46,15 @@ class DetailsFragment : Fragment() {
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
 
-
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.currentPosition.value = displayPosition
+//        viewModel.currentPosition.value = displayPosition
 
-        viewModel.displayMovieDescription()
-
+        viewModel.displayMovieDescription(displayPosition)
 
     }
 }

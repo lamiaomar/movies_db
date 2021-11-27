@@ -15,15 +15,17 @@ class PhotoGridAdapter : ListAdapter<MoviesPhoto,
         PhotoGridAdapter.MoviesPhotoViewHolder>(DiffCallback) {
 
 
-    class MoviesPhotoViewHolder(private var binding:
-                                GridViewItemBinding
-    ):
+    class MoviesPhotoViewHolder(
+        private var binding:
+        GridViewItemBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(moviesPhoto: MoviesPhoto) {
             binding.result = moviesPhoto
             binding.executePendingBindings()
         }
-        val button : Button = binding.button
+
+        val button: Button = binding.button
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<MoviesPhoto>() {
@@ -41,9 +43,12 @@ class PhotoGridAdapter : ListAdapter<MoviesPhoto,
         parent: ViewGroup,
         viewType: Int
     ): MoviesPhotoViewHolder {
-        return MoviesPhotoViewHolder(GridViewItemBinding.inflate(
-            LayoutInflater.from(parent.context)))    }
-
+        return MoviesPhotoViewHolder(
+            GridViewItemBinding.inflate(
+                LayoutInflater.from(parent.context)
+            )
+        )
+    }
 
 
     override fun onBindViewHolder(holder: MoviesPhotoViewHolder, position: Int) {
@@ -51,12 +56,11 @@ class PhotoGridAdapter : ListAdapter<MoviesPhoto,
         holder.bind(marsPhoto)
 
         holder.button.setOnClickListener {
-
-            view -> view.findNavController().navigate(R.id.action_moviesFragment_to_detailsFragment)
-
+//            view -> view.findNavController().navigate(R.id.action_moviesFragment_to_detailsFragment)
+            val action = MoviesFragmentDirections.actionMoviesFragmentToDetailsFragment(position)
+            holder.button.findNavController().navigate(action)
 
         }
-
 
 
     }

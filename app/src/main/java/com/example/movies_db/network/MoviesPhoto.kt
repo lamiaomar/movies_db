@@ -31,7 +31,7 @@ data class ResultOfMoviesPhotots(
 data class MoviesPhoto(
 
     @Json(name="overview")
-    val overview: String? = null,
+    val overview: String?,
 
     @Json(name="original_language")
     val originalLanguage: String? = null,
