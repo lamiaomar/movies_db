@@ -43,11 +43,12 @@ class MoviesViewModel : ViewModel() {
     var vote_count = MutableLiveData<String?>()
 
     var _star = MutableLiveData<MoviesApiStars>()
-    val star : LiveData<MoviesApiStars> = _star
+    val star: LiveData<MoviesApiStars> = _star
 
     private val _status = MutableLiveData<MoviesApiStatus>()
     val status: LiveData<MoviesApiStatus> = _status
 
+    var favoriteList = mutableListOf<String>()
 
     init {
         getMoviesPhotos()
@@ -59,10 +60,13 @@ class MoviesViewModel : ViewModel() {
         _status.value = MoviesApiStatus.LOADING
         viewModelScope.launch {
             try {
-                _results.value = MoviesApi.retrofitService.getPhotos().results
+                _results.value = MoviesApi.retrofitService.getPhotos()
+                    .results.sortedBy { it.originalTitle }
+//                    .filter { it.adult }
+//                _results.value!!.sortedBy { it.originalTitle }
+
                 _title.value = _results.value!![0].title
                 _postre.value = _results.value!![0].posterPath
-
 
                 _status.value = MoviesApiStatus.DONE
             } catch (e: Exception) {
@@ -92,10 +96,13 @@ class MoviesViewModel : ViewModel() {
 
         if (vote_average.value!! > 8.0) {
             _star.value = MoviesApiStars.NINE
-        }else if (vote_average.value!! > 6.0){
+        } else if (vote_average.value!! > 6.0) {
             _star.value = MoviesApiStars.SEVEN
-        }else if (vote_average.value!! > 4.0){
+        } else if (vote_average.value!! > 4.0) {
             _star.value = MoviesApiStars.FIVE
         }
     }
+
+
+
 }

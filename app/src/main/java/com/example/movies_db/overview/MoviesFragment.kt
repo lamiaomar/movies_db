@@ -35,9 +35,6 @@ class MoviesFragment : Fragment() {
         return binding.root
     }
 
-//    fun moveFun(){
-//        findNavController().navigate(R.id.action_moviesFragment_to_detailsFragment)
-//    }
 
 
 }

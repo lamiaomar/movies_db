@@ -67,7 +67,7 @@ data class MoviesPhoto(
     val id: Int? = null,
 
     @Json(name="adult")
-    val adult: Boolean? = null,
+    val adult: Boolean ,
 
     @Json(name="vote_count")
     val voteCount: Int? = null
