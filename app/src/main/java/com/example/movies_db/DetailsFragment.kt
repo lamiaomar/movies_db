@@ -23,7 +23,7 @@ class DetailsFragment : Fragment() {
 
 //    private lateinit var binding: FragmentDetailsBinding
 
-    private var displayPosition : Int = 0
+    private var displayPosition: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

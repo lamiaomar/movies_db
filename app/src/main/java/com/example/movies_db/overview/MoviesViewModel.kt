@@ -104,5 +104,4 @@ class MoviesViewModel : ViewModel() {
     }
 
 
-
 }
