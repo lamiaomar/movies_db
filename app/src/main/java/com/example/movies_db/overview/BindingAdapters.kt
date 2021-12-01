@@ -1,7 +1,9 @@
 package com.example.movies_db.overview
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.navigation.Navigation.findNavController
@@ -83,4 +85,18 @@ fun bindStar( statusImageView: ImageView,
     }
 }
 
+//@BindingAdapter("moviesApiGenreID")
+//fun bindGenre(genreTextView : TextView,
+//status : MoviesApiGenreId?){
+//    when(status){
+//        MoviesApiGenreId.ACTION -> {
+//            genreTextView.visibility = View.VISIBLE
+//            genreTextView.setText("ACTION")
+//        }
+//        MoviesApiGenreId.ANIMATION -> {
+//            genreTextView.visibility = View.VISIBLE
+//            genreTextView.setText("ANIMATION")
+//        }
+//    }
+//}
 

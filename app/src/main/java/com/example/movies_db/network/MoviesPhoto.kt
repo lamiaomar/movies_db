@@ -46,7 +46,7 @@ data class MoviesPhoto(
     val title: String? = null,
 
     @Json(name="genre_ids")
-    val genreIds: List<Int?>? = null,
+    val genreIds: List<Int>,
 
     @Json(name="poster_path")
     val posterPath: String? = null,

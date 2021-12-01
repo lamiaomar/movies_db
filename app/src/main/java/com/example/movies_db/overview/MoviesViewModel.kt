@@ -13,14 +13,23 @@ import java.lang.Exception
 enum class MoviesApiStatus { LOADING, ERROR, DONE }
 
 enum class MoviesApiStars { NINE, SEVEN, FIVE }
+
+enum class MoviesApiGenreId(var genreId: Int) {
+    ACTION(28),
+    ANIMATION(16),
+    COMEDY(35),
+    DRAMA(18),
+    FAMILY(10751)
+}
+
 class MoviesViewModel : ViewModel() {
 
     private var _currentPosition = MutableLiveData<Int?>()
     val currentPosition
         get() = _currentPosition
 
-    private val _results = MutableLiveData<List<MoviesPhoto>>()
-    val results: LiveData<List<MoviesPhoto>> = _results
+    private val _results = MutableLiveData<List<MoviesPhoto?>>()
+    val results: LiveData<List<MoviesPhoto?>> = _results
 
     private val _title = MutableLiveData<String>()
     val title: LiveData<String> = _title
@@ -48,25 +57,31 @@ class MoviesViewModel : ViewModel() {
     private val _status = MutableLiveData<MoviesApiStatus>()
     val status: LiveData<MoviesApiStatus> = _status
 
-    var favoriteList = mutableListOf<String>()
+    var genreId = MutableLiveData<List<Int?>>()
+
+    private val _genreType = MutableLiveData<MoviesApiGenreId>()
+    val genreType: LiveData<MoviesApiGenreId> = _genreType
+
+    var stringG = MutableLiveData<String?>("")
+
+    var genreList = mutableListOf<String>()
+
 
     init {
         getMoviesPhotos()
     }
-
 
     private fun getMoviesPhotos() {
 
         _status.value = MoviesApiStatus.LOADING
         viewModelScope.launch {
             try {
-                _results.value = MoviesApi.retrofitService.getPhotos()
-                    .results.sortedBy { it.originalTitle }
-//                    .filter { it.adult }
-//                _results.value!!.sortedBy { it.originalTitle }
+                _results.value = MoviesApi.retrofitService.getPhotos(12)
+                    .results
 
-                _title.value = _results.value!![0].title
-                _postre.value = _results.value!![0].posterPath
+                _title.value = _results.value!![0]?.title
+                _postre.value = _results.value!![0]?.posterPath
+
 
                 _status.value = MoviesApiStatus.DONE
             } catch (e: Exception) {
@@ -76,8 +91,6 @@ class MoviesViewModel : ViewModel() {
 
         }
     }
-
-    //        Log.e("TAG","oveview:${overview.value}")
 
     fun displayMovieDescription(displayPosition: Int) {
 
@@ -94,6 +107,7 @@ class MoviesViewModel : ViewModel() {
         vote_average.value = item?.voteAverage
         vote_count.value = item?.voteCount.toString()
 
+
         if (vote_average.value!! > 8.0) {
             _star.value = MoviesApiStars.NINE
         } else if (vote_average.value!! > 6.0) {
@@ -103,5 +117,100 @@ class MoviesViewModel : ViewModel() {
         }
     }
 
+   fun getMoviesWithFilter(genreState : MoviesApiGenreId){
+       _status.value = MoviesApiStatus.LOADING
+       viewModelScope.launch {
+           try {
+               _results.value = MoviesApi.retrofitService.getMoviesWithFilter(genreState.genreId , 12).results
+
+               _title.value = _results.value!![0]?.title
+               _postre.value = _results.value!![0]?.posterPath
+
+
+               _status.value = MoviesApiStatus.DONE
+           } catch (e: Exception) {
+               _status.value = MoviesApiStatus.ERROR
+               _results.value = listOf()
+           }
+
+       }
+
+   }
+
+    fun getGenreId(displayPosition: Int) {
+
+        genreId.value = results.value!![displayPosition]?.genreIds
+        Log.e("TAG", "item res ${genreId.value?.size}")
+
+        genreList.clear()
+        for (item in genreId.value!!) {
+            if (item == 28) {
+                _genreType.value = MoviesApiGenreId.ACTION
+                genreList.add("Action ")
+
+            } else if (item == 12) {
+                _genreType.value = MoviesApiGenreId.ANIMATION
+                genreList.add("Adventure ")
+
+            } else if (item == 16) {
+                genreList.add("Animation ")
+
+            } else if (item == 35) {
+                _genreType.value = MoviesApiGenreId.COMEDY
+                genreList.add("Comedy ")
+
+            } else if (item == 80) {
+                genreList.add("Crime ")
+
+            } else if (item == 99) {
+                genreList.add("Documentary ")
+
+            } else if (item == 18) {
+                _genreType.value = MoviesApiGenreId.DRAMA
+                genreList.add("Drama ")
+
+            } else if (item == 10751) {
+                _genreType.value = MoviesApiGenreId.FAMILY
+                genreList.add("Family ")
+
+            }
+
+        }
+
+    }
+
+    fun stringGenre() {
+        for (item in genreList) {
+            Log.e("TAG", "item $item")
+            stringG.value += item + " "
+            //  stringG.value!!.removeSuffix(",")
+
+        }
+    }
+
+    fun sortByAlphabeticalOrder() {
+        viewModelScope.launch {
+            _results.value = MoviesApi.retrofitService.getPhotos(12)
+                .results.sortedBy { it.originalTitle }
+        }
+    }
+
+    fun sortByReleaaseDate() {
+
+        viewModelScope.launch {
+            _results.value = MoviesApi.retrofitService.getPhotos(12)
+                .results.sortedByDescending { it.releaseDate }
+        }
+    }
+
+    fun sortByVoteAverage() {
+        viewModelScope.launch {
+            _results.value = MoviesApi.retrofitService.getPhotos(12)
+                .results.sortedByDescending {  it.voteAverage  }
+//            sortedBy { it.voteAverage }
+        }
+    }
 
 }
+
+

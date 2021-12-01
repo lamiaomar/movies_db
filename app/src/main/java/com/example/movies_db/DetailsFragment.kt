@@ -1,6 +1,7 @@
 package com.example.movies_db
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -51,10 +52,18 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.e("TAG", "onViewCreated: $displayPosition", )
 //        viewModel.currentPosition.value = displayPosition
+
+//        viewModel.stringG.value = null
 
         viewModel.displayMovieDescription(displayPosition)
 
+        viewModel.getGenreId(displayPosition)
+
+        viewModel.stringGenre()
+
     }
+
+
 }

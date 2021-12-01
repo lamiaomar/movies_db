@@ -30,10 +30,18 @@ class MoviesFragment : Fragment() {
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
 
-
         binding.photosGrid.adapter = PhotoGridAdapter()
+
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        onDestroy()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.stringG.value = ""
+    }
 }
